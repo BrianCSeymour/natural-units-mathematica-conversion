@@ -1,0 +1,284 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 12.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     10494,        276]
+NotebookOptionsPosition[      9339,        249]
+NotebookOutlinePosition[      9673,        264]
+CellTagsIndexPosition[      9630,        261]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["Helper functions", "Subsubsection",
+ CellChangeTimes->{{3.769785012920807*^9, 
+  3.769785015652968*^9}},ExpressionUUID->"d169888b-64bf-4039-bc3a-\
+ef0dabf5774d"],
+
+Cell["\<\
+GetUnitVal[quantity, unit]: this wrapper function returns the \
+GetUnitVal[quantity, unit] but returns zero instead of null for a unit if it \
+is not a factor. This is necessary for other classes.\
+\>", "Text",
+ CellChangeTimes->{{3.769784922906068*^9, 
+  3.769784999473917*^9}},ExpressionUUID->"e4a0d1fa-5b63-43f8-9302-\
+6f9d9a43e2e5"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"GetUnitVal", "[", 
+    RowBox[{"qu_", ",", "unit_"}], "]"}], ":=", 
+   RowBox[{"Module", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"result", ",", "dims"}], "}"}], ",", "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"dims", " ", "=", " ", 
+       RowBox[{"UnitDimensions", "[", "qu", "]"}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"If", "[", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"Position", "[", 
+          RowBox[{"dims", ",", "unit"}], "]"}], "\[Equal]", 
+         RowBox[{"{", "}"}]}], ",", 
+        RowBox[{"result", "=", "0"}], ",", 
+        RowBox[{"result", " ", "=", " ", 
+         RowBox[{"dims", "[", 
+          RowBox[{"[", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"Position", "[", 
+              RowBox[{"dims", ",", "unit"}], "]"}], "[", 
+             RowBox[{"[", 
+              RowBox[{"1", ",", "1"}], "]"}], "]"}], ",", "2"}], "]"}], 
+          "]"}]}]}], "]"}], ";", "\[IndentingNewLine]", "result"}]}], 
+    "\[IndentingNewLine]", "]"}]}], "\[IndentingNewLine]", 
+  "\[IndentingNewLine]"}]], "Input",
+ CellChangeTimes->{{3.769783008029118*^9, 3.76978307870312*^9}, {
+   3.7697831124130287`*^9, 3.769783122363578*^9}, {3.769783191381843*^9, 
+   3.7697831952938843`*^9}, {3.769783355282444*^9, 3.769783531502047*^9}, {
+   3.769783568828926*^9, 3.769784060361493*^9}, {3.769784147022944*^9, 
+   3.769784169255149*^9}, {3.7697842101696444`*^9, 3.7697842669568787`*^9}, {
+   3.7697843767350197`*^9, 3.76978458647097*^9}, {3.7697846274969893`*^9, 
+   3.769784713491081*^9}, {3.769784756847239*^9, 3.769784762945816*^9}, {
+   3.769784794236434*^9, 3.76978480596035*^9}, {3.76978490512409*^9, 
+   3.769784917438352*^9}, {3.769785004574061*^9, 3.769785009785557*^9}, 
+   3.769785178942347*^9, {3.769785319040133*^9, 3.7697853222297697`*^9}},
+ CellLabel->"In[1]:=",ExpressionUUID->"c971ce2d-605f-48ea-80db-1c119de6635a"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Conversion Factors", "Subsubsection",
+ CellChangeTimes->{{3.769786406602742*^9, 
+  3.769786413503263*^9}},ExpressionUUID->"a5ede68e-3c0f-4b60-85bd-\
+572d815ef7da"],
+
+Cell[TextData[{
+ "This tells the factor necessary to go to natural unit = SI unit / factor. \n\
+for SI unit = ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    SuperscriptBox["mass", "\[Alpha]"], " ", 
+    SuperscriptBox["length", "\[Beta]"], " ", 
+    SuperscriptBox["time", "\[Gamma]"]}], TraditionalForm]],ExpressionUUID->
+  "0e4f5e50-6873-42c5-84d1-a672e1024029"],
+ ", then the factors are:\ngeometric factor = ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    SuperscriptBox["G", 
+     RowBox[{"-", "\[Alpha]"}]], 
+    SuperscriptBox["c", 
+     RowBox[{
+      RowBox[{"2", "\[Alpha]"}], "-", "\[Gamma]"}]]}], TraditionalForm]],
+  ExpressionUUID->"01f3b14a-fbf1-4a0e-8503-f211f8cf0832"],
+ "\nnatural factor = ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    SuperscriptBox["\[HBar]", 
+     RowBox[{"\[Beta]", "+", "\[Gamma]"}]], 
+    SuperscriptBox["c", 
+     RowBox[{"\[Beta]", "-", 
+      RowBox[{"2", "\[Alpha]"}]}]]}], TraditionalForm]],ExpressionUUID->
+  "77e2753a-df9d-4888-b256-e08bcfeca29d"]
+}], "Text",
+ CellChangeTimes->{{3.7697861410312223`*^9, 3.76978620531756*^9}, {
+  3.7697862363669357`*^9, 
+  3.769786388368951*^9}},ExpressionUUID->"586237a5-6571-4fbf-a1ff-\
+ced05fdc4c38"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"SItoGeometricDivideFactor", "[", "qu_", "]"}], ":=", " ", 
+   RowBox[{"Module", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"\[Alpha]", ",", "\[Beta]", ",", "\[Gamma]"}], "}"}], ",", 
+     "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"\[Alpha]", "=", 
+       RowBox[{"GetUnitVal", "[", 
+        RowBox[{"qu", ",", "\"\<MassUnit\>\""}], "]"}]}], ";", 
+      RowBox[{"\[Beta]", "=", 
+       RowBox[{"GetUnitVal", "[", 
+        RowBox[{"qu", ",", "\"\<LengthUnit\>\""}], "]"}]}], ";", 
+      RowBox[{"\[Gamma]", "=", 
+       RowBox[{"GetUnitVal", "[", 
+        RowBox[{"qu", ",", "\"\<TimeUnit\>\""}], "]"}]}], ";", 
+      "\[IndentingNewLine]", " ", 
+      RowBox[{
+       SuperscriptBox[
+        RowBox[{"Quantity", "[", 
+         RowBox[{"1", ",", "\"\<GravitationalConstant\>\""}], "]"}], 
+        RowBox[{"-", "\[Alpha]"}]], "*", 
+       SuperscriptBox[
+        RowBox[{"Quantity", "[", 
+         RowBox[{"1", ",", "\"\<SpeedOfLight\>\""}], "]"}], 
+        RowBox[{
+         RowBox[{"2", "\[Alpha]"}], "-", "\[Gamma]"}]]}]}]}], 
+    "\[IndentingNewLine]", "]"}]}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"SItoNaturalDivideFactor", "[", "qu_", "]"}], ":=", " ", 
+  RowBox[{"Module", "[", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{"\[Alpha]", ",", "\[Beta]", ",", "\[Gamma]"}], "}"}], ",", 
+    "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"\[Alpha]", "=", 
+      RowBox[{"GetUnitVal", "[", 
+       RowBox[{"qu", ",", "\"\<MassUnit\>\""}], "]"}]}], ";", 
+     RowBox[{"\[Beta]", "=", 
+      RowBox[{"GetUnitVal", "[", 
+       RowBox[{"qu", ",", "\"\<LengthUnit\>\""}], "]"}]}], ";", 
+     RowBox[{"\[Gamma]", "=", 
+      RowBox[{"GetUnitVal", "[", 
+       RowBox[{"qu", ",", "\"\<TimeUnit\>\""}], "]"}]}], ";", 
+     "\[IndentingNewLine]", " ", 
+     RowBox[{
+      SuperscriptBox[
+       RowBox[{"Quantity", "[", 
+        RowBox[{"1", ",", "\"\<ReducedPlanckConstant\>\""}], "]"}], 
+       RowBox[{"\[Beta]", "+", "\[Gamma]"}]], "*", 
+      SuperscriptBox[
+       RowBox[{"Quantity", "[", 
+        RowBox[{"1", ",", "\"\<SpeedOfLight\>\""}], "]"}], 
+       RowBox[{"\[Beta]", "-", 
+        RowBox[{"2", "\[Alpha]"}]}]]}]}]}], "\[IndentingNewLine]", 
+   "]"}]}]}], "Input",
+ CellChangeTimes->{{3.769785994846559*^9, 3.769786052943386*^9}, {
+  3.769786084109612*^9, 3.769786088953288*^9}},
+ CellLabel->"In[2]:=",ExpressionUUID->"f808fd07-b54c-4952-951d-c9cc9babe799"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Natural Units Conversion ", "Subsubsection",
+ CellChangeTimes->{{3.7697850284467297`*^9, 3.7697850368066397`*^9}, {
+  3.7697853994057302`*^9, 
+  3.769785403415111*^9}},ExpressionUUID->"c3e859f4-7be9-4553-8789-\
+3795267bdfe4"],
+
+Cell["These functions actually convert to natural units.", "Text",
+ CellChangeTimes->{{3.7697865025817137`*^9, 
+  3.7697865171767063`*^9}},ExpressionUUID->"8048d63b-9b7b-4b71-b08d-\
+d09e46636ff7"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"SItoGeometricUnits", "[", "qu_", "]"}], ":=", " ", 
+   RowBox[{"Module", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"factor", ",", "geoqu"}], "}"}], ",", "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"factor", " ", "=", " ", 
+       RowBox[{"SItoGeometricDivideFactor", "[", "qu", "]"}]}], ";", 
+      RowBox[{"geoqu", " ", "=", 
+       FractionBox["qu", "factor"]}], ";", "\[IndentingNewLine]", " ", 
+      RowBox[{"UnitConvert", "[", 
+       RowBox[{"geoqu", ",", 
+        SuperscriptBox["\"\<Meters\>\"", 
+         RowBox[{"GetUnitVal", "[", 
+          RowBox[{"geoqu", ",", "\"\<LengthUnit\>\""}], "]"}]]}], "]"}]}]}], 
+    "\[IndentingNewLine]", "]"}]}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"SItoNaturalUnits", "[", "qu_", "]"}], ":=", " ", 
+  RowBox[{"Module", "[", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{"factor", ",", "geoqu"}], "}"}], ",", "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"factor", " ", "=", " ", 
+      RowBox[{"SItoNaturalDivideFactor", "[", "qu", "]"}]}], ";", 
+     RowBox[{"geoqu", " ", "=", 
+      FractionBox["qu", "factor"]}], ";", "\[IndentingNewLine]", " ", 
+     RowBox[{"UnitConvert", "[", 
+      RowBox[{"geoqu", ",", 
+       SuperscriptBox["\"\<Gigaelectronvolts\>\"", 
+        RowBox[{"GetUnitVal", "[", 
+         RowBox[{"geoqu", ",", "\"\<MassUnit\>\""}], "]"}]]}], "]"}]}]}], 
+   "\[IndentingNewLine]", "]"}]}], "\[IndentingNewLine]"}], "Input",
+ CellChangeTimes->{{3.76978504274958*^9, 3.769785061220496*^9}, {
+   3.769785162479273*^9, 3.769785247536078*^9}, {3.769785353819071*^9, 
+   3.769785385710547*^9}, {3.769785426826439*^9, 3.769785509765431*^9}, {
+   3.769785541485867*^9, 3.769785554385817*^9}, {3.769786007747437*^9, 
+   3.7697860115762978`*^9}, {3.76978642594775*^9, 3.769786472532486*^9}, 
+   3.769793404265499*^9},
+ CellLabel->"In[4]:=",ExpressionUUID->"6f26e749-6ec2-444c-a1a0-60159364d636"]
+}, Open  ]]
+},
+WindowSize->{1853, 1025},
+WindowMargins->{{Automatic, 0}, {0, Automatic}},
+FrontEndVersion->"12.0 for Linux x86 (64-bit) (April 8, 2019)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[580, 22, 167, 3, 46, "Subsubsection",ExpressionUUID->"d169888b-64bf-4039-bc3a-ef0dabf5774d"],
+Cell[750, 27, 346, 7, 36, "Text",ExpressionUUID->"e4a0d1fa-5b63-43f8-9302-6f9d9a43e2e5"],
+Cell[1099, 36, 1938, 42, 170, "Input",ExpressionUUID->"c971ce2d-605f-48ea-80db-1c119de6635a"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[3074, 83, 169, 3, 46, "Subsubsection",ExpressionUUID->"a5ede68e-3c0f-4b60-85bd-572d815ef7da"],
+Cell[3246, 88, 1179, 34, 108, "Text",ExpressionUUID->"586237a5-6571-4fbf-a1ff-ced05fdc4c38"],
+Cell[4428, 124, 2469, 63, 249, "Input",ExpressionUUID->"f808fd07-b54c-4952-951d-c9cc9babe799"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[6934, 192, 231, 4, 46, "Subsubsection",ExpressionUUID->"c3e859f4-7be9-4553-8789-3795267bdfe4"],
+Cell[7168, 198, 196, 3, 36, "Text",ExpressionUUID->"8048d63b-9b7b-4b71-b08d-d09e46636ff7"],
+Cell[7367, 203, 1956, 43, 313, "Input",ExpressionUUID->"6f26e749-6ec2-444c-a1a0-60159364d636"]
+}, Open  ]]
+}
+]
+*)
+
